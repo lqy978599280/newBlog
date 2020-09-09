@@ -1,12 +1,13 @@
 <template>
   <div class="footer">
-    <p>
+    <span>
       Copyright © 2020
-      <a href="#">y</a>
-    </p>
-    <p>
+      <a href="#">lqy</a>  版权所有
       <a href="http://beian.bizcn.com/login.jsp" target="_blank">浙ICP备19045397号</a>
-    </p>
+    </span>
+    <span>
+      纳兰心事
+    </span>
   </div>
 </template>
 
@@ -20,15 +21,13 @@ export default {
 <style scoped>
 @media (max-width: 5000px) {
   .footer {
-    width: 100vw;
-    position: fixed;
-    bottom: 0;
-    height: 4rem;
+    width: 80vw;
+    margin-left: 10vw;
+    height: 2rem;
     font-size: 0.5rem;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    /* flex-direction: column; */
+    justify-content: space-around;
     line-height: 1rem;
   }
  
@@ -37,7 +36,7 @@ export default {
     text-decoration: none;
     color: #3399ff;
   }
-  .footer p {
+  .footer span {
     text-align: center;
     margin-top: 0.3rem;
   }
