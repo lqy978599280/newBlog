@@ -35,6 +35,11 @@ const routes = [
         name: 'suggestion',
         component: () => import('../views/suggestion.vue')
       },
+      {
+        path: '/singleBlog:id',
+        name: 'singleBlog',
+        component: () => import('../views/singleBlog.vue')
+      },
     ]
   },
 ]

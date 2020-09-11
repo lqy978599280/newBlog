@@ -1,6 +1,6 @@
 <template>
-    <div style="height:30vh">
-        关于页
+    <div  style="height:30vh">
+        博客详情页
     </div>
 </template>
 

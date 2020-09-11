@@ -1,5 +1,6 @@
 <template>
-        <div class="blog">
+     <router-link :to='"/singleBlog:"+id' tag="span">
+           <div class="blog">
              <p class="blogtitle">{{title}}</p> 
              <div>
              <span class="date">{{date}}</span> 
@@ -8,6 +9,8 @@
              </div>
            
         </div>   
+     </router-link>
+      
 </template>
 
 <script>
@@ -15,36 +18,46 @@
         props:{
             title:'',
             date:'',
-            tag:''
+            tag:'',
+            id:''
         }
     }
 </script>
 
 <style  scoped>
 .blog{
-    width: 60vw;
+    width: 50vw;
     margin: 6vh 10vw 2vh 10vw;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 20vh;
+    min-height: 27vh;
     flex-direction: column;
-    border: 1px solid skyblue;
-    border-radius: 5px;
+    background: url(../assets/bg3.png)  no-repeat 50% 70%; 
+    background-size: 100%;
+    border-radius: 15px;
     cursor: pointer;
-    transition: all 0.2s ease-out ;
+    transition: all 0.8s ease-out ;
+
 }
 .blog:hover{
-    transform: scale(1.05);
-    box-shadow: 1px 4px 8px 3px rgba(0, 0, 0, .075)
+    /* transform: scale(1.05); */
+    box-shadow: 5px 8px 11px 2px rgba(0, 0, 0, .4);
+    background-size: 120%;
+    transform: translateY(-5px) translateX(-10px);
 }
 .blogtitle{
     font-size: 1.5rem;
     letter-spacing: 0.4rem;
-    margin-bottom: 1rem;
+    font-weight: 400;
+    color: #fff;
+    margin-bottom: .75rem;
 }
 .blog span{
-    font-size: 1rem;
+    color: #eee;
+    font-size: .875rem;
+    text-align: center;
+    font-weight: 400;
 }
 
 .point{

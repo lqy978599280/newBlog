@@ -60,7 +60,16 @@
         </div>
       </header>
       <!-- banner  -->
-      <div class="banner" style="display:block"></div>
+      <div class="banner" style="display:block" 
+      :class="$route.path=='/'?'bg1':
+      $route.path=='/about'?'bg3':
+      $route.path=='/link'?'bg0':
+      $route.path=='/process'?'bg1':
+      $route.path=='/suggestion'?'bg1':
+      $route.path.indexOf('/singleBlog')>=0?'bg3':''
+      ">
+      </div>
+      
       <div class="mask">
         <h2>纳兰心事</h2>
         <p>月似当时，人似当时否？</p>
@@ -72,7 +81,7 @@
         <router-view />
 
         <div v-if="$route.path =='/'">
-          <blog :title="blog.title" :date="blog.date" :tag="blog.tag" />
+          <blog :title="blog.title" :date="blog.date" :tag="blog.tag" :id='blog.id' />
         </div>
         <el-backtop></el-backtop>
       </div>
@@ -106,6 +115,7 @@ export default {
         title: "测试用例",
         date: "20/9/9",
         tag: "记",
+        id:1
       },
     };
   },
