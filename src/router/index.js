@@ -40,6 +40,11 @@ const routes = [
         name: 'singleBlog',
         component: () => import('../views/singleBlog.vue')
       },
+      {
+        path: '/blogging',
+        name: 'blogging',
+        component: () => import('../views/blogging.vue')
+      },
     ]
   },
 ]

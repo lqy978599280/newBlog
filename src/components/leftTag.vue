@@ -48,7 +48,7 @@ export default {
   text-align: center;
   margin-top: 2rem;
   min-height: 60vh;
-  animation: tags 3s ease both 1s;
+  animation: tags 3s ease both 0.1s;
   position: absolute;
 }
 @keyframes tags {
