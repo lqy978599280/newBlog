@@ -12,10 +12,6 @@
 
     />
   
-      <article 
-      
-       class="markdown-body"
-      v-html="html" style="width:30vw;height:30vh;z-index=9999;margin-top:40rem;border:1px solid balck"></article>
   </div>
   
 </template>

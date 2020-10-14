@@ -100,7 +100,7 @@
       ></div>
 
       <div class="mask" v-if="$route.path !== '/blogging'">
-        <h2>{{ hometitle }}</h2>
+        <h1>{{ hometitle }}</h1>
         <p>{{ homeverse }}</p>
       </div>
       <!-- content  -->
@@ -221,18 +221,24 @@ export default {
         window.pageYOffset ||
         document.documentElement.scrollTop ||
         document.body.scrollTop;
-      console.log(scrollTop);
+     
       if (scrollTop > 80) {
         document.getElementById("myheader").classList.remove("header-top");
       } else {
         document.getElementById("myheader").classList.add("header-top");
+      }
+      if(this.$route.path == '/blogging'){
+        document.getElementById("myheader").classList.remove("header-top");
+
       }
     },
   },
   mounted() {
     this.showButton();
     document.body.scrollTop = 0;
+  
     window.addEventListener("scroll", this.handleScroll, true); // 监听（绑定）滚轮滚动事件
+
   },
   destroyed: function () {
     window.removeEventListener("scroll", this.handleScroll); //  离开页面清除（移除）滚轮滚动事件
