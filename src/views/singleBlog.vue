@@ -1,42 +1,64 @@
 <template>
   <div>
-    <div class="markdown-body singleBlog" v-html="blog.content"></div>
+    <mavon-editor 
+    v-html="blog.content" 
+    style="padding:20px" 
+    class="singleBlog" 
+    :subfield="false"                                    
+ 		:boxShadow="false"                                    
+ 		defaultOpen="preview"                                    
+ 		:toolbarsFlag="false" 
+    >
+    </mavon-editor>
   </div>
 </template>
 
 <script>
+import { formatDate } from "@/utils/changeDate";
+// import 'mavon-editor/dist/css/index.css'
 export default {
   data() {
     return {
-      blog: {
-        title: "测试用例",
-        date: "20/9/9",
-        tag: "技",
-        id: 1,
-        content: `<p>发士大夫埃尔文舒服阿瑟发士大夫</p>
-                    <h3><a id="_1"></a>三级标题</h3>
-                    <div class="hljs-center">
-                    <p>居右</p>
-                    </div>
-                    <blockquote>
-                    <p>阿斯蒂芬是</p>
-                    </blockquote>`,
-      },
+      blog: {},
     };
   },
   mounted() {
-    this.$store.dispatch("hometitle", this.blog.title);
-    this.$store.dispatch("homeverse", this.blog.date + "  " + this.blog.tag);
-
-    console.log(this.$store.state.homeverse);
+    // console.log(this.$store.state.homeverse);
+    // console.log(this.$route);
+    // console.log(this.$route.params.id.substr(1));
+    let id = this.$route.params.id.substr(1)
+    this.$post("/findBlog",{id})
+      .then((data) => {
+        console.log(data);
+        if(data.content){
+          this.blog = data.content;
+        this.$store.dispatch("hometitle", this.blog.title);
+        console.log(this.blog.createdAt);
+        this.$store.dispatch(
+          "homeverse",
+          formatDate(new Date(this.blog.createdAt), "yy/MM/dd") +
+            " • " +
+            this.blog.tag
+        );
+        }
+        
+      })
+      .catch((err) => {
+        this.$message.error(`${err}`);
+        console.log(err);
+      });
   },
 };
 </script>
 
 <style scoped>
 .singleBlog {
-  height: 30vh;
+  min-height: 30vh;
   width: 50vw;
   margin-top: 3rem;
+  /* box-shadow: none!important; */
+  z-index: 0;
 }
+
+
 </style>

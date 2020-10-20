@@ -2,22 +2,18 @@
   <div>
     <mavon-editor
       :toolbars="toolbars"
-      @imgAdd="handleEditorImgAdd"
+      @imgAdd="$imgAdd"
       @imgDel="handleEditorImgDel"
       v-model="value"
       @change="change"
       ref="md"
-      :ishljs = "true"
+      :ishljs="true"
       class="mavon"
-
     />
-  
   </div>
-  
 </template>
 
 <script>
-
 export default {
   data() {
     return {
@@ -35,7 +31,7 @@ export default {
         ul: true, // 无序列表
         link: true, // 链接
         imagelink: true, // 图片链接
-        code: false, // code
+        code: true, // code
         table: true, // 表格
         fullscreen: true, // 全屏编辑
         readmodel: true, // 沉浸式阅读
@@ -56,12 +52,12 @@ export default {
         subfield: true, // 单双栏模式
         preview: true, // 预览
       },
-      value:'',
-      blogInfo:{
-          blogMdContent:'',
-          blogContent:''
+      value: "",
+      blogInfo: {
+        blogMdContent: "",
+        blogContent: "",
       },
-      html:''
+      html: "",
     };
   },
 
@@ -71,19 +67,63 @@ export default {
       this.html = render;
       this.blogInfo.blogMdContent = value;
       this.blogInfo.blogContent = render;
-      
-      console.log(this.html);
+      // console.log(this.html);
     },
     //上传图片接口pos 表示第几个图片
-    handleEditorImgAdd(pos, $file) {
-      var formdata = new FormData();
-      formdata.append("file", $file);
-      this.$axios
-        .post("http://localhost:8000/blogs/image/upload/", formdata)
+    $imgAdd(pos, $file) {
+      const qiniu = require("qiniu-js");
+      var config = {
+        useCdnDomain: true,
+        region: qiniu.region.z2,
+      };
+      var putExtra = {
+        fname: "",
+        params: {},
+        mimeType: ["image/png"],
+      };
+      
+      this.$get("/getToken")
         .then((res) => {
-          var url = res.data.data;
-          this.$refs.md.$img2Url(pos, url); //这里就是引用ref = md 然后调用$img2Url方法即可替换地址
+          console.log(res);
+          var key = $file.name;
+          let uploadToken = res.data.uploadToken;
+          let url = ''
+          let that = this
+          var observable = qiniu.upload(
+            $file,
+            key,
+            uploadToken,
+            putExtra,
+            config
+          );
+          // 文件上传
+          let subscription = observable.subscribe({
+            next(res) {
+              console.log(res);
+            },
+            error(err) {
+              console.log(err);
+            },
+            complete(res) {
+              console.log(res);
+              url = "http://img.lqy.kim/" + res.key+'>to30';
+              console.log(url);
+                 that.$refs.md.$img2Url(pos, url)
+            },
+          });
+          
+        })
+        .catch((err) => {
+          console.log(err);
         });
+      // var formdata = new FormData();
+      // formdata.append("file", $file);
+      // this.$post("http://up-z0.qiniu.com", formdata)
+      //   .then((res) => {
+      //     console.log(res);
+      //   // var url = res.data.data;
+      //     // this.$refs.md.$img2Url(pos, url); //这里就是引用ref = md 然后调用$img2Url方法即可替换地址
+      //   });
     },
     handleEditorImgDel() {
       console.log("handleEditorImgDel"); //我这里没做什么操作，后续我要写上接口，从七牛云CDN删除相应的图片
@@ -93,19 +133,17 @@ export default {
 </script>
 
 <style scoped>
-.mavon{
-    width: 100vw;
-    max-width: 100%;
-    flex:1;
-    display: flex;
-    position: absolute;
-    top: 4.25rem;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow: hidden;
-    box-shadow: none!important;
+.mavon {
+  width: 100vw;
+  max-width: 100%;
+  flex: 1;
+  display: flex;
+  position: absolute;
+  top: 4.25rem;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  box-shadow: none !important;
 }
-
-
 </style>

@@ -1,7 +1,7 @@
 <template>
   <router-link tag="span" :to="{path: '/singleBlog:' + id}" >
     <div class="blog" :class="bgtype">
-      <p class="blogtitle">{{ title }}</p>
+      <p class="centerblogtitle">{{ title }}</p>
       <div>
         <span class="date">{{ date }}</span>
         <span class="point">•</span>
@@ -52,7 +52,7 @@ export default {
 .blog {
 
   width: 50vw;
-  margin: 6vh 10vw 2vh 10vw;
+  margin: 6vh 0 2vh 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -70,12 +70,13 @@ export default {
   background-size: 120%;
   transform: translateY(-5px) translateX(-10px);
 }
-.blogtitle {
-  font-size: 1.5rem;
+.centerblogtitle {
+  font-size: 1.7rem;
   letter-spacing: 0.4rem;
   font-weight: 400;
   color: #fff;
   margin-bottom: 0.75rem;
+  margin-left: 0.4rem;
 }
 .blog span {
   color: #eee;

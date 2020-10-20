@@ -71,9 +71,29 @@
           >
             <i class="el-icon-search" v-if="searchIcon"></i>
           </div>
-          <el-button class="search" type="primary" v-else size="small"
-            >发布</el-button
-          >
+
+          <el-popover placement="top" v-model="visible" v-else>
+            <h2 style="text-align: center; margin: 0 0 1rem 0">发布文章</h2>
+
+            <el-radio-group v-model="blogtag" size="mini" @change="log">
+              <el-radio-button label="技">技术</el-radio-button>
+              <el-radio-button label="学">学习</el-radio-button>
+              <el-radio-button label="杂">杂记</el-radio-button>
+            </el-radio-group>
+            <div style="text-align: center; margin: 1rem 0 0.5rem 0">
+              <el-button type="primary" size="mini" @click="submit"
+                >确认并发布</el-button
+              >
+            </div>
+            <el-button
+              class="search"
+              type="primary"
+              slot="reference"
+              size="small"
+              @click="getcontent"
+              >发布</el-button
+            >
+          </el-popover>
         </div>
       </header>
       <!-- banner  -->
@@ -107,13 +127,13 @@
       <leftTag v-if="$route.path == '/'" />
 
       <div class="content">
-        <router-view />
+        <router-view ref="blog" />
 
         <div v-if="$route.path == '/'">
           <blog
             v-for="(item, i) in blogs"
             :title="item.title"
-            :date="item.date"
+            :date="item.createdAt"
             :tag="item.tag"
             :id="item.id"
             :key="i"
@@ -138,6 +158,7 @@
 import myFooter from "../components/footer";
 import leftTag from "../components/leftTag";
 import blog from "../components/blog";
+import { formatDate } from "@/utils/changeDate";
 
 import inputVue from "element-ui/packages/input/src/input.vue";
 
@@ -153,28 +174,32 @@ export default {
       searchIcon: true,
       scroll: "",
       blogtitle: "",
+      blogtag: "",
+      visible: false,
+      blogcontent: "",
+      visible: false,
       blogs: [
-        {
-          title: "测试用例",
-          date: "20/9/9",
-          tag: "技",
-          id: 1,
-          content: `<p>发士大夫埃尔文舒服阿瑟发士大夫</p>
-                    <h3><a id="_1"></a>三级标题</h3>
-                    <div class="hljs-right">
-                    <p>居右</p>
-                    </div>
-                    <blockquote>
-                    <p>阿斯蒂芬是</p>
-                    </blockquote>`,
-        },
-        {
-          title: "测试用例",
-          date: "20/10/10",
-          tag: "杂",
-          id: 2,
-          content: "",
-        },
+        // {
+        //   title: "测试用例",
+        //   date: "20/9/9",
+        //   tag: "技",
+        //   id: 1,
+        //   content: `<p>发士大夫埃尔文舒服阿瑟发士大夫</p>
+        //             <h3><a id="_1"></a>三级标题</h3>
+        //             <div class="hljs-right">
+        //             <p>居右</p>
+        //             </div>
+        //             <blockquote>
+        //             <p>阿斯蒂芬是</p>
+        //             </blockquote>`,
+        // },
+        // {
+        //   title: "测试用例",
+        //   date: "20/10/10",
+        //   tag: "杂",
+        //   id: 2,
+        //   content: "",
+        // },
       ],
     };
   },
@@ -190,6 +215,48 @@ export default {
     },
   },
   methods: {
+    getcontent() {
+      this.blogcontent = this.$refs.blog.blogInfo.blogContent;
+      // console.log(this.$refs.blog);
+    },
+    log() {
+      console.log(this.blogtag);
+    },
+    submit() {
+      if (!this.blogtitle) {
+        this.$message.error("请添写标题");
+        this.visible = false;
+      } else if (!this.blogtag) {
+        this.$message.error("请选择标签");
+      } else {
+        this.$post("/createBlog", {
+          title: this.blogtitle,
+          tag: this.blogtag,
+          author: "lqy",
+          content: this.blogcontent,
+        })
+          .then((data) => {
+            if (data) {
+              this.visible = false;
+              console.log(data);
+              this.$message({
+                message: "发布成功",
+                type: "success",
+              });
+              this.$router.push({ path: "/" });
+              this.getBlogs();
+              this.blogtitle=''
+              this.blogtag=''
+              this.blogcontent=''
+
+            }
+          })
+          .catch((err) => {
+            this.$message.error(`${err}`);
+            console.log(err);
+          });
+      }
+    },
     subsearch() {
       this.$notify.info({
         title: "无果",
@@ -221,24 +288,39 @@ export default {
         window.pageYOffset ||
         document.documentElement.scrollTop ||
         document.body.scrollTop;
-     
+
       if (scrollTop > 80) {
         document.getElementById("myheader").classList.remove("header-top");
       } else {
         document.getElementById("myheader").classList.add("header-top");
       }
-      if(this.$route.path == '/blogging'){
+      if (this.$route.path == "/blogging") {
         document.getElementById("myheader").classList.remove("header-top");
-
       }
+    },
+    getBlogs() {
+      this.$get("/getBlogs")
+        .then((data) => {
+          if (data) {
+            this.blogs = data.content;
+            console.log(this.blogs);
+            for (let item of this.blogs) {
+              item.createdAt = formatDate(new Date(item.createdAt), "yy/MM/dd");
+            }
+          }
+        })
+        .catch((err) => {
+          this.$message.error(`${err}`);
+          console.log(err);
+        });
     },
   },
   mounted() {
     this.showButton();
     document.body.scrollTop = 0;
-  
-    window.addEventListener("scroll", this.handleScroll, true); // 监听（绑定）滚轮滚动事件
 
+    window.addEventListener("scroll", this.handleScroll, true); // 监听（绑定）滚轮滚动事件
+    this.getBlogs();
   },
   destroyed: function () {
     window.removeEventListener("scroll", this.handleScroll); //  离开页面清除（移除）滚轮滚动事件
@@ -246,11 +328,8 @@ export default {
   watch: {
     "$route.path": function () {
       if (this.$route.path.indexOf("/singleBlog") < 0) {
-        this.$store.dispatch("hometitle", '纳兰心事');
-        this.$store.dispatch(
-          "homeverse",
-         '月似当时，人似当时否？'
-        );
+        this.$store.dispatch("hometitle", "纳兰心事");
+        this.$store.dispatch("homeverse", "月似当时，人似当时否？");
       }
     },
   },
