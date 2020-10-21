@@ -106,7 +106,7 @@ export default {
             },
             complete(res) {
               console.log(res);
-              url = "http://img.lqy.kim/" + res.key+'>to30';
+              url = "https://img.lqy.kim/" + res.key+'>to30';
               console.log(url);
                  that.$refs.md.$img2Url(pos, url)
             },
@@ -116,14 +116,7 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-      // var formdata = new FormData();
-      // formdata.append("file", $file);
-      // this.$post("http://up-z0.qiniu.com", formdata)
-      //   .then((res) => {
-      //     console.log(res);
-      //   // var url = res.data.data;
-      //     // this.$refs.md.$img2Url(pos, url); //这里就是引用ref = md 然后调用$img2Url方法即可替换地址
-      //   });
+    
     },
     handleEditorImgDel() {
       console.log("handleEditorImgDel"); //我这里没做什么操作，后续我要写上接口，从七牛云CDN删除相应的图片

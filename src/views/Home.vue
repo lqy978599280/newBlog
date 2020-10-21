@@ -178,29 +178,19 @@ export default {
       visible: false,
       blogcontent: "",
       visible: false,
-      blogs: [
-        // {
-        //   title: "测试用例",
-        //   date: "20/9/9",
-        //   tag: "技",
-        //   id: 1,
-        //   content: `<p>发士大夫埃尔文舒服阿瑟发士大夫</p>
-        //             <h3><a id="_1"></a>三级标题</h3>
-        //             <div class="hljs-right">
-        //             <p>居右</p>
-        //             </div>
-        //             <blockquote>
-        //             <p>阿斯蒂芬是</p>
-        //             </blockquote>`,
-        // },
-        // {
-        //   title: "测试用例",
-        //   date: "20/10/10",
-        //   tag: "杂",
-        //   id: 2,
-        //   content: "",
-        // },
-      ],
+      blogs: [],
+      verse:[
+        '浮生若梦，别多会少，不如莫遇。',
+        '月似当时，人似当时否？',
+        '彤云久绝飞琼字，人在谁边。',
+        '凭将扫黛窗前月，持向今宵照别离。',
+        '相逢不语，一朵芙蓉著秋雨。',
+        '夜雨几番销瘦了，繁华如梦总无凭。人间何处问多情。',
+        '半世浮萍随逝水，一宵冷雨葬名花。',
+        '我是人间惆怅客，断肠声里忆平生。',
+        '人生若只如初见，何事秋风悲画扇。',
+        '等闲变却故人心，却道故心人易变。',
+      ]
     };
   },
   computed: {
@@ -328,8 +318,10 @@ export default {
   watch: {
     "$route.path": function () {
       if (this.$route.path.indexOf("/singleBlog") < 0) {
+        let index = Math.floor(Math.random()*10)
+        console.log(index);
         this.$store.dispatch("hometitle", "纳兰心事");
-        this.$store.dispatch("homeverse", "月似当时，人似当时否？");
+        this.$store.dispatch("homeverse", this.verse[index  ]);
       }
     },
   },

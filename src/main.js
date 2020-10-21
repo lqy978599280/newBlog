@@ -18,7 +18,7 @@ Vue.use(ElementUI);
 Vue.use(mavonEditor);
 
 Vue.config.productionTip = false
-
+document.title = '纳兰词'
 new Vue({
   router,
   store,

@@ -3,7 +3,7 @@ import axios from 'axios';
 // import Cookies from 'js-cookie'
 
 axios.defaults.timeout = 10000;
-axios.defaults.baseURL ='http://47.102.128.117/';
+axios.defaults.baseURL ='https://lqy.kim:3000/';
 // axios.defaults.headers.common['account_id'] = Cookies.get('account')
 // axios.defaults.headers.common['token'] = Cookies.get('token')
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -24,8 +24,7 @@ axios.interceptors.request.use(
     //     'account_id' :account,
     //   }
 
-      config.contentType = config.url == 'api/v1/upload/issue/temp'?undefined :'application/json; charset=utf-8';
-      config.dataType = 'json';
+      config.dataType = 'jsonp';
       config.crossDomain = true;
     // if(token){
     //   config.params = {'token':token}

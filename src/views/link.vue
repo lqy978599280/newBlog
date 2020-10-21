@@ -1,5 +1,5 @@
 <template>
-    <div style="height:30vh">
+    <div class="link">
         友链页
     </div>
 </template>
@@ -11,5 +11,8 @@
 </script>
 
 <style scoped>
-
+.link{
+     width: 40vw;
+    margin-top: 4rem;
+}
 </style>
