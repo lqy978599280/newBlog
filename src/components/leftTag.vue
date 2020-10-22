@@ -3,18 +3,18 @@
     <div class="tags">
       <i class="iconfont icon-ci-copy icon"></i>
       <div class="top"></div>
-      <span class="tag">技
+      <span class="tag" @click="changeTag('技')">技
         <div class="tagShow">术</div>
       </span>
       <p>·</p>
 
-      <span class="tag">学
+      <span class="tag" @click="changeTag('学')">学
         <div class="tagShow">习</div>
 
       </span>
       <p>·</p>
 
-      <span class="tag">杂
+      <span class="tag" @click="changeTag('杂')">杂
         <div class="tagShow">记</div>
 
       </span>
@@ -28,6 +28,20 @@ import Affix from "./affix";
 export default {
   components: {
     Affix,
+  },
+  methods:{
+    changeTag(tag){
+      this.$post("/getBlogs", { currentpage: 1, tag })
+        .then((data) => {
+          if (data) {
+            this.$emit('changeTag',data.content)
+            }
+        })
+        .catch((err) => {
+          this.$message.error(`${err}`);
+          console.log(err);
+        });
+    }
   },
 };
 </script>

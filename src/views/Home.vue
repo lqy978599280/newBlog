@@ -28,7 +28,10 @@
                 vertical-align: center;
               "
             ></i>
-            <a href="/">纳兰心事</a>
+            <!-- <a href="/" class="logoname">纳兰心事</a> -->
+            <router-link to="/" tag="span" class="logoname">
+              纳兰心事
+            </router-link>
           </span>
           <ul v-if="$route.path !== '/blogging'">
             <router-link to="/" tag="li"> 主页 </router-link>
@@ -49,7 +52,7 @@
             <el-input
               class="input"
               v-model="search"
-              placeholder="寻..."
+              placeholder="名..."
               size="mini"
               v-if="!searchIcon"
               @keyup.enter.native="subsearch"
@@ -108,9 +111,9 @@
             : $route.path == '/link'
             ? 'bg0'
             : $route.path == '/process'
-            ? 'bg1'
+            ? 'bg4'
             : $route.path == '/suggestion'
-            ? 'bg1'
+            ? 'bg5'
             : $route.path.indexOf('/singleBlog') >= 0
             ? 'bg3'
             : $route.path == '/blogging'
@@ -124,9 +127,12 @@
         <p>{{ homeverse }}</p>
       </div>
       <!-- content  -->
-      <leftTag v-if="$route.path == '/'" />
+      <leftTag v-if="$route.path == '/'" @changeTag='changeTag' />
 
-      <div class="content">
+      <div
+        class="content"
+        :class="$route.path !== '/blogging' ? 'minHeight' : ''"
+      >
         <router-view ref="blog" />
 
         <div v-if="$route.path == '/'">
@@ -139,6 +145,18 @@
             :key="i"
             :content="item.content"
           />
+          <!-- 分页 -->
+          <div class="pagination">
+            <el-pagination
+              layout="prev, pager, next"
+              :current-page.sync="page.currentpage"
+              :total="page.total"
+              :page-size="6"
+              :hide-on-single-page="true"
+              @current-change="changePage"
+            >
+            </el-pagination>
+          </div>
         </div>
         <el-backtop></el-backtop>
       </div>
@@ -179,18 +197,23 @@ export default {
       blogcontent: "",
       visible: false,
       blogs: [],
-      verse:[
-        '浮生若梦，别多会少，不如莫遇。',
-        '月似当时，人似当时否？',
-        '彤云久绝飞琼字，人在谁边。',
-        '凭将扫黛窗前月，持向今宵照别离。',
-        '相逢不语，一朵芙蓉著秋雨。',
-        '夜雨几番销瘦了，繁华如梦总无凭。人间何处问多情。',
-        '半世浮萍随逝水，一宵冷雨葬名花。',
-        '我是人间惆怅客，断肠声里忆平生。',
-        '人生若只如初见，何事秋风悲画扇。',
-        '等闲变却故人心，却道故心人易变。',
-      ]
+      blogslength: "",
+      verse: [
+        "浮生若梦，别多会少，不如莫遇。",
+        "月似当时，人似当时否？",
+        "彤云久绝飞琼字，人在谁边。",
+        "凭将扫黛窗前月，持向今宵照别离。",
+        "相逢不语，一朵芙蓉著秋雨。",
+        "夜雨几番销瘦了，繁华如梦总无凭。人间何处问多情。",
+        "半世浮萍随逝水，一宵冷雨葬名花。",
+        "我是人间惆怅客，断肠声里忆平生。",
+        "人生若只如初见，何事秋风悲画扇。",
+        "等闲变却故人心，却道故心人易变。",
+      ],
+      page: {
+        currentpage: 1,
+        total: 6,
+      },
     };
   },
   computed: {
@@ -205,6 +228,34 @@ export default {
     },
   },
   methods: {
+    changeTag(data){
+      console.log(data);
+       this.blogs = data.rows;
+            this.page.total = data.count;
+            if (this.page.total == 0) {
+              this.$notify.info({
+                title: "无果",
+                message: "没有在该标签寻到词",
+                position: "top-left",
+                duration: 1500,
+              });
+            }
+            else{
+              this.$notify.info({
+                title: "标签选择",
+                message: "已筛选出该标签下的文章",
+                position: "top-left",
+                duration: 1500,
+              });
+            }
+            console.log(this.blogs);
+            for (let item of this.blogs) {
+              item.createdAt = formatDate(new Date(item.createdAt), "yy/MM/dd");
+            }
+    },
+    changePage() {
+      this.getBlogs(this.page.currentpage);
+    },
     getcontent() {
       this.blogcontent = this.$refs.blog.blogInfo.blogContent;
       // console.log(this.$refs.blog);
@@ -234,11 +285,10 @@ export default {
                 type: "success",
               });
               this.$router.push({ path: "/" });
-              this.getBlogs();
-              this.blogtitle=''
-              this.blogtag=''
-              this.blogcontent=''
-
+              this.getBlogs(this.page.currentpage);
+              this.blogtitle = "";
+              this.blogtag = "";
+              this.blogcontent = "";
             }
           })
           .catch((err) => {
@@ -248,15 +298,18 @@ export default {
       }
     },
     subsearch() {
-      this.$notify.info({
-        title: "无果",
-        message: "没有寻到该词条",
-        position: "top-left",
-        duration: 1500,
-      });
+      if (this.$route.path !== "/") {
+        this.$router.push({ path: "/" });
+      }
+      this.getBlogs(this.page.currentpage, this.search);
     },
     changeSearch() {
       this.searchIcon = !this.searchIcon;
+      this.search = "";
+      if(this.searchIcon == true){
+      this.getBlogs(this.page.currentpage);
+
+      }
     },
     showButton() {
       if (!this.bgchange) {
@@ -288,11 +341,20 @@ export default {
         document.getElementById("myheader").classList.remove("header-top");
       }
     },
-    getBlogs() {
-      this.$get("/getBlogs")
+    getBlogs(page, searchTitle, tag) {
+      this.$post("/getBlogs", { currentpage: page, title: searchTitle, tag })
         .then((data) => {
           if (data) {
-            this.blogs = data.content;
+            this.blogs = data.content.rows;
+            this.page.total = data.content.count;
+            if (this.page.total == 0) {
+              this.$notify.info({
+                title: "无果",
+                message: "没有寻到该词条",
+                position: "top-left",
+                duration: 1500,
+              });
+            }
             console.log(this.blogs);
             for (let item of this.blogs) {
               item.createdAt = formatDate(new Date(item.createdAt), "yy/MM/dd");
@@ -310,18 +372,25 @@ export default {
     document.body.scrollTop = 0;
 
     window.addEventListener("scroll", this.handleScroll, true); // 监听（绑定）滚轮滚动事件
-    this.getBlogs();
+    this.getBlogs(this.page.currentpage);
   },
   destroyed: function () {
     window.removeEventListener("scroll", this.handleScroll); //  离开页面清除（移除）滚轮滚动事件
   },
   watch: {
     "$route.path": function () {
+      if (this.$route.path !== "/") {
+        this.searchIcon = true;
+      }
       if (this.$route.path.indexOf("/singleBlog") < 0) {
-        let index = Math.floor(Math.random()*10)
-        console.log(index);
+        let index = Math.floor(Math.random() * 10);
         this.$store.dispatch("hometitle", "纳兰心事");
-        this.$store.dispatch("homeverse", this.verse[index  ]);
+        this.$store.dispatch("homeverse", this.verse[index]);
+      }
+    },
+    search: function () {
+      if (this.search == "") {
+        this.getBlogs(this.page.currentpage);
       }
     },
   },

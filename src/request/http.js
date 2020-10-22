@@ -4,6 +4,8 @@ import axios from 'axios';
 
 axios.defaults.timeout = 10000;
 axios.defaults.baseURL ='https://lqy.kim:3000/';
+// axios.defaults.baseURL ='localhost:3000/';
+
 // axios.defaults.headers.common['account_id'] = Cookies.get('account')
 // axios.defaults.headers.common['token'] = Cookies.get('token')
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';

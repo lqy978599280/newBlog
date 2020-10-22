@@ -103,17 +103,27 @@ export default {
             },
             error(err) {
               console.log(err);
+              if(err.code == 614){
+                  that.$notify.info({
+                title: "上传失败",
+                message: "已经存在同名图片，此图片无法存入库，请更改名称后重新上传",
+                position: "top-left",
+                duration: 2500,
+              });
+              }
+            
             },
             complete(res) {
               console.log(res);
               url = "https://img.lqy.kim/" + res.key+'>to30';
               console.log(url);
-                 that.$refs.md.$img2Url(pos, url)
+              that.$refs.md.$img2Url(pos, url)
             },
           });
           
         })
         .catch((err) => {
+
           console.log(err);
         });
     

@@ -38,14 +38,20 @@
         /* height: 1000vh; */
         width: 100vw;
         max-width: 100%;
-        min-height: 100vh;
         display: flex;        
         justify-content: center;
         margin-bottom: 4rem;
         flex :1;
         /* flex-direction: column; */
     }
-    .title a {
+    .minHeight{
+        min-height: 100vh;
+    } 
+    .pagination{
+        display: flex;
+        justify-content: center;
+    }
+    .logoname {
         text-decoration: none;
         color: inherit;
         z-index: 1033;
@@ -55,6 +61,7 @@
     }
     .title {
         transition: all 0.15s ease-in;
+        cursor: pointer;
     }
     .title:hover {
         transform: translateY(-3px);
@@ -146,8 +153,12 @@
         background: url(../assets/bg1.jpg) no-repeat 50% 45%;
         background-size: cover;
     }
+    .bgvillage{
+        background: url(../assets/bgvillage.jpg) no-repeat 50% 70%;
+        background-size: cover;
+    }
     .bg0{
-        background: url(../assets/bg.png) no-repeat 50% 70%;
+        background: url(../assets/bgnight.jpg) no-repeat 50% 70%;
         background-size: cover;
     }
     .bg3{
@@ -155,7 +166,11 @@
         background-size: cover;
     }
     .bg4{
-        background: url(../assets/bg4.jpg) no-repeat 60% 65%;
+        background: url(../assets/bg6.png) no-repeat 60% 85%;
+        background-size: cover;
+    }
+    .bg5{
+        background: url(../assets/bg5.png) no-repeat 60% 45%;
         background-size: cover;
     }
     .disppear{

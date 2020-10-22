@@ -1,5 +1,5 @@
 <template>
-  <router-link tag="span" :to="{path: '/singleBlog:' + id}" >
+  <router-link tag="span" :to="{ path: '/singleBlog:' + id }">
     <div class="blog" :class="bgtype">
       <p class="centerblogtitle">{{ title }}</p>
       <div>
@@ -18,39 +18,44 @@ export default {
     date: "",
     tag: "",
     id: "",
-    content:""
+    content: "",
   },
   data() {
-    return {
-    };
+    return {};
   },
   computed: {
     bgtype: function () {
-      return this.tag=='杂' ? 'bg4':this.tag=='技' ? 'bg3':this.tag == '学' ?'bg2': 'bg4'
+      return this.tag == "杂"
+        ? "bgvillage"
+        : this.tag == "技"
+        ? "bg6"
+        : this.tag == "学"
+        ? "bgwater"
+        : "bg4";
     },
   },
 };
 </script>
 
 <style  scoped>
-.bg1{
-  background: url(../assets/bg.png) no-repeat 50% 70%;
-
+.bgvillage {
+  background: url(../assets/bgvillage.jpg) no-repeat 50% 70%;
+  background-size: cover;
 }
-.bg2{
-  background: url(../assets/bg1.jpg) no-repeat 50% 70%;
-
+.bgwater {
+  background: url(../assets/bgwater.jpg) no-repeat 50% 70%;
+  background-size: cover;
 }
-.bg3{
+.bg6 {
+  background: url(../assets/bg4.jpg) no-repeat 50% 75%;
+}
+.bg3 {
   background: url(../assets/bg3.png) no-repeat 50% 70%;
-
 }
-.bg4{
+.bg4 {
   background: url(../assets/bg4.jpg) no-repeat 50% 70%;
-
 }
 .blog {
-
   width: 50vw;
   margin: 6vh 0 2vh 0;
   display: flex;
@@ -59,7 +64,7 @@ export default {
   min-height: 27vh;
   flex-direction: column;
   background-size: 100%;
-  filter:brightness(0.8);
+  filter: brightness(0.8);
   border-radius: 15px;
   cursor: pointer;
   transition: all 0.8s ease-out;
