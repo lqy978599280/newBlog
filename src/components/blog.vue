@@ -31,7 +31,7 @@ export default {
         ? "bg6"
         : this.tag == "学"
         ? "bgwater"
-        : "bg4";
+        : "bg3";
     },
   },
 };
@@ -47,14 +47,12 @@ export default {
   background-size: cover;
 }
 .bg6 {
-  background: url(../assets/bg4.jpg) no-repeat 50% 75%;
+  background: url(../assets/bg8.png) no-repeat 50% 40%;
 }
 .bg3 {
   background: url(../assets/bg3.png) no-repeat 50% 70%;
 }
-.bg4 {
-  background: url(../assets/bg4.jpg) no-repeat 50% 70%;
-}
+
 .blog {
   width: 50vw;
   margin: 6vh 0 2vh 0;
