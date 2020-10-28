@@ -72,7 +72,7 @@
             @click="changeSearch"
             v-if="$route.path !== '/blogging'"
           >
-            <i class="el-icon-search" v-if="searchIcon"></i>
+            <i class="el-icon-search"  v-if="searchIcon"></i>
           </div>
 
           <el-popover placement="top" v-model="visible" v-else>
@@ -115,7 +115,7 @@
             : $route.path == '/suggestion'
             ? 'bg5'
             : $route.path.indexOf('/singleBlog') >= 0
-            ? 'bg3'
+            ? 'bg1'
             : $route.path == '/blogging'
             ? 'disppear'
             : ''

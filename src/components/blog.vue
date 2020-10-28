@@ -47,10 +47,10 @@ export default {
   background-size: cover;
 }
 .bg6 {
-  background: url(../assets/bg8.png) no-repeat 50% 40%;
+  background: url(../assets/bg8.jpg) no-repeat 50% 43%;
 }
 .bg3 {
-  background: url(../assets/bg3.png) no-repeat 50% 70%;
+  background: url(../assets/bg3.jpg) no-repeat 50% 70%;
 }
 
 .blog {
@@ -75,7 +75,7 @@ export default {
 }
 .centerblogtitle {
   font-size: 1.7rem;
-  letter-spacing: 0.4rem;
+  letter-spacing: 0.1rem;
   font-weight: 400;
   color: #fff;
   margin-bottom: 0.75rem;
@@ -86,6 +86,7 @@ export default {
   font-size: 0.875rem;
   text-align: center;
   font-weight: 400;
+    letter-spacing: 0.1rem;
 }
 
 .point {

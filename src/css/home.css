@@ -162,7 +162,7 @@
         background-size: cover;
     }
     .bg3{
-        background: url(../assets/bg3.png) no-repeat 60% 75%;
+        background: url(../assets/bg3.jpg) no-repeat 60% 75%;
         background-size: cover;
     }
     .bg4{
@@ -170,7 +170,7 @@
         background-size: cover;
     }
     .bg5{
-        background: url(../assets/bg7.png) no-repeat 20% 65%;
+        background: url(../assets/bg7.jpg) no-repeat 20% 65%;
         background-size: cover;
     }
     .disppear{
@@ -275,7 +275,7 @@
         width: 100vw;
         height: 100vh;
         max-width: 100%;
-        background: url('https://img.lqy.kim/00234.jpg') no-repeat 50% 50%;
+        background: url(../assets/00234.jpg) no-repeat 50% 50%;
         background-size: 100%;
         display: flex;
         align-items: center;
