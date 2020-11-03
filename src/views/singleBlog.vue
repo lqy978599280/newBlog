@@ -1,6 +1,6 @@
 <template>
 
-  <div>
+  <div class="blogbox">
     <el-breadcrumb separator="/" class="breadcrumb">
     <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
     <el-breadcrumb-item :to="{ path: '/' ,query :{tag:blog.tag}}">{{blog.tag}}</el-breadcrumb-item>
@@ -59,27 +59,43 @@ export default {
 </script>
 
 <style scoped>
-.breadcrumb{
+@media (max-width: 5000px) {
+ .blogbox{
+   width: 100vw;
+   max-width: 100%;
+   margin: 0 auto;
+ }
+ .breadcrumb{
   font-size: 1.3rem;
-  margin : 2rem 0 3rem 0;
+  margin : 2rem 0 3rem 25vw;
 }
-
 .singleBlog {
   min-height: 30vh;
   width: 50vw;
-  margin-top: .8rem;
+  margin: .8rem auto;
   border: 0;
   /* box-shadow: none!important; */
   z-index: 0;
 }
- /* hr.myhr {
-        width: 20vw;
-        border: 0;
-        height: 1px;
-        margin: 1ch 0 2rem 0;
-        background-image: linear-gradient(to right, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0)  );
-    } */
 
+}
+
+@media (max-width: 860px) {
+ .breadcrumb{
+  font-size: 1.3rem;
+  margin : 2rem 20px 3rem 20px;
+}
+.singleBlog {
+  max-width: 100%;
+  width: 95vw;
+  margin: .8rem 20px 10px 20px;
+  /* box-shadow: none!important; */
+}
+ .blogbox{
+   width: 100vw;
+   max-width: 100%;
+ }
+}
 </style>
 <style>
 .breadcrumb .el-breadcrumb__inner a, .el-breadcrumb__inner.is-link{

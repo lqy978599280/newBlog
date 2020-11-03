@@ -39,7 +39,7 @@
             <router-link to="/about" tag="li"> 关于 </router-link>
             <router-link to="/suggestion" tag="li"> 建议 </router-link>
             <router-link to="/link" tag="li"> 友链 </router-link>
-            <router-link to="/blogging" tag="li"> 发表 </router-link>
+            <router-link to="/blogging" tag="li" class="write"> 发表 </router-link>
           </ul>
           <el-input
             v-model="blogtitle"

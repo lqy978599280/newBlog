@@ -5,7 +5,7 @@
       <a href="#">lqy</a>  版权所有
       <a href="http://beian.bizcn.com/login.jsp" target="_blank">浙ICP备19045397号</a>
     </span>
-    <span>
+    <span class="title">
       纳兰心事
     </span>
   </div>
@@ -42,14 +42,25 @@ export default {
   }
 }
 
-@media (max-width: 666px) {
+@media (max-width: 860px) {
   .footer {
     margin: 1rem 0;
-    font-size: 0.8rem;
+    font-size: 10px;
+    width: 100vw;
   }
-
   .footer a {
     margin: 0 0.5rem;
+  }
+}
+@media (max-width: 450px) {
+  .footer {
+    margin: 2px 0;
+  }
+  .footer a {
+    margin: 0 3px;
+  }
+  .title{
+    display: none
   }
 }
 </style>
