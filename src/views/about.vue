@@ -1,6 +1,12 @@
 <template>
     <div class="about">
-        关于页
+        <div class="bruce flex-ct-x">
+             
+            <div class="auto-typing">
+                console.log('about me')
+            </div>
+        </div>
+      
     </div>
 </template>
 
@@ -10,9 +16,12 @@
     }
 </script>
 
-<style scoped>
+<style  scoped>
 .about{
     width: 40vw;
     margin-top: 4rem;
 }
+
+
+
 </style>

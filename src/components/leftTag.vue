@@ -34,7 +34,7 @@ export default {
       this.$post("/getBlogs", { currentpage: 1, tag })
         .then((data) => {
           if (data) {
-            this.$emit('changeTag',data.content)
+            this.$emit('changeTag',data.content,tag)
             }
         })
         .catch((err) => {

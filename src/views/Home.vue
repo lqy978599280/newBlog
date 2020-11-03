@@ -228,9 +228,18 @@ export default {
     },
   },
   methods: {
-    changeTag(data){
-      console.log(data);
+    changeTag(data,tag){
+       console.log(data);
+       console.log(tag);
+       if(tag=='技'){
+       this.$store.dispatch("hometitle", "技术篇");
+       }else if(tag == '学'){
+       this.$store.dispatch("hometitle", "学习篇");
+       }else if(tag == '杂'){
+       this.$store.dispatch("hometitle", "杂记篇");
+       }
        this.blogs = data.rows;
+        this.$store.dispatch("homeverse", `该标签下共有${data.count}篇文章`);
             this.page.total = data.count;
             if (this.page.total == 0) {
               this.$notify.info({
@@ -379,8 +388,22 @@ export default {
   },
   watch: {
     "$route.path": function () {
+      console.log(this.$route);
       if (this.$route.path !== "/") {
         this.searchIcon = true;
+      }
+      if(this.$route.query.tag){
+        this.$post("/getBlogs", { currentpage: 1,tag: this.$route.query.tag })
+        .then((data) => {
+          if (data) {
+            console.log(data);
+            this.changeTag(data.content,this.$route.query.tag)
+            }
+        })
+        .catch((err) => {
+          this.$message.error(`${err}`);
+          console.log(err);
+        });
       }
       if (this.$route.path.indexOf("/singleBlog") < 0) {
         let index = Math.floor(Math.random() * 10);

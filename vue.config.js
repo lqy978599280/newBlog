@@ -25,6 +25,7 @@ module.exports = {
         minRatio: 0.8
       })
     ]
-  }
-  }
+  },
+   
+}
 
