@@ -32,7 +32,7 @@ export default {};
     margin-top: 2rem;
   }
   .console {
-    width: 90vw;
+    box-sizing: content-box;
     animation: console 5s cubic-bezier(0.075, 0.82, 0.165, 1) both;
     margin: 2rem 0;
     font-weight: bold;

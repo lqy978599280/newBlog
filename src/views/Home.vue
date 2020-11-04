@@ -34,12 +34,20 @@
             </router-link>
           </span>
           <ul v-if="$route.path !== '/blogging'">
-            <router-link to="/" tag="li"> 主页 </router-link>
+            <router-link
+              tag="li"
+              @click.native="getBlogs(page.currentpage)"
+              to="/"
+            >
+              主页
+            </router-link>
             <router-link to="/process" tag="li"> 归档 </router-link>
             <router-link to="/about" tag="li"> 关于 </router-link>
             <router-link to="/suggestion" tag="li"> 建议 </router-link>
             <router-link to="/link" tag="li"> 友链 </router-link>
-            <router-link to="/blogging" tag="li" class="write"> 发表 </router-link>
+            <router-link to="/blogging" tag="li" class="write">
+              发表
+            </router-link>
           </ul>
           <el-input
             v-model="blogtitle"
@@ -72,7 +80,7 @@
             @click="changeSearch"
             v-if="$route.path !== '/blogging'"
           >
-            <i class="el-icon-search"  v-if="searchIcon"></i>
+            <i class="el-icon-search" v-if="searchIcon"></i>
           </div>
 
           <el-popover placement="top" v-model="visible" v-else>
@@ -127,7 +135,11 @@
         <p>{{ homeverse }}</p>
       </div>
       <!-- content  -->
-      <leftTag v-if="$route.path == '/'" @changeTag='changeTag' />
+      <leftTag
+        v-if="$route.path == '/'"
+        @changeTag="changeTag"
+        @getall="getall"
+      />
 
       <div
         class="content"
@@ -228,39 +240,41 @@ export default {
     },
   },
   methods: {
-    changeTag(data,tag){
-       console.log(data);
-       console.log(tag);
-       if(tag=='技'){
-       this.$store.dispatch("hometitle", "技术篇");
-       }else if(tag == '学'){
-       this.$store.dispatch("hometitle", "学习篇");
-       }else if(tag == '杂'){
-       this.$store.dispatch("hometitle", "杂记篇");
-       }
-       this.blogs = data.rows;
-        this.$store.dispatch("homeverse", `该标签下共有${data.count}篇文章`);
-            this.page.total = data.count;
-            if (this.page.total == 0) {
-              this.$notify.info({
-                title: "无果",
-                message: "没有在该标签寻到词",
-                position: "top-left",
-                duration: 1500,
-              });
-            }
-            else{
-              this.$notify.info({
-                title: "标签选择",
-                message: "已筛选出该标签下的文章",
-                position: "top-left",
-                duration: 1500,
-              });
-            }
-            console.log(this.blogs);
-            for (let item of this.blogs) {
-              item.createdAt = formatDate(new Date(item.createdAt), "yy/MM/dd");
-            }
+    getall() {
+      this.getBlogs(this.page.currentpage)
+    },
+    changeTag(data, tag) {
+      console.log(data);
+      console.log(tag);
+      if (tag == "技") {
+        this.$store.dispatch("hometitle", "技术篇");
+      } else if (tag == "学") {
+        this.$store.dispatch("hometitle", "学习篇");
+      } else if (tag == "杂") {
+        this.$store.dispatch("hometitle", "杂记篇");
+      }
+      this.blogs = data.rows;
+      this.$store.dispatch("homeverse", `该标签下共有${data.count}篇文章`);
+      this.page.total = data.count;
+      if (this.page.total == 0) {
+        this.$notify.info({
+          title: "无果",
+          message: "没有在该标签寻到词",
+          position: "top-left",
+          duration: 1500,
+        });
+      } else {
+        this.$notify.info({
+          title: "标签选择",
+          message: "已筛选出该标签下的文章",
+          position: "top-left",
+          duration: 1500,
+        });
+      }
+      console.log(this.blogs);
+      for (let item of this.blogs) {
+        item.createdAt = formatDate(new Date(item.createdAt), "yy/MM/dd");
+      }
     },
     changePage() {
       this.getBlogs(this.page.currentpage);
@@ -315,9 +329,8 @@ export default {
     changeSearch() {
       this.searchIcon = !this.searchIcon;
       this.search = "";
-      if(this.searchIcon == true){
-      this.getBlogs(this.page.currentpage);
-
+      if (this.searchIcon == true) {
+        this.getBlogs(this.page.currentpage);
       }
     },
     showButton() {
@@ -392,18 +405,18 @@ export default {
       if (this.$route.path !== "/") {
         this.searchIcon = true;
       }
-      if(this.$route.query.tag){
-        this.$post("/getBlogs", { currentpage: 1,tag: this.$route.query.tag })
-        .then((data) => {
-          if (data) {
-            console.log(data);
-            this.changeTag(data.content,this.$route.query.tag)
+      if (this.$route.query.tag) {
+        this.$post("/getBlogs", { currentpage: 1, tag: this.$route.query.tag })
+          .then((data) => {
+            if (data) {
+              console.log(data);
+              this.changeTag(data.content, this.$route.query.tag);
             }
-        })
-        .catch((err) => {
-          this.$message.error(`${err}`);
-          console.log(err);
-        });
+          })
+          .catch((err) => {
+            this.$message.error(`${err}`);
+            console.log(err);
+          });
       }
       if (this.$route.path.indexOf("/singleBlog") < 0) {
         let index = Math.floor(Math.random() * 10);

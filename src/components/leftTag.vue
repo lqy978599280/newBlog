@@ -1,7 +1,7 @@
 <template>
   <Affix :offset="100">
     <div class="tags">
-      <i class="iconfont icon-ci-copy icon"></i>
+      <i class="iconfont icon-ci-copy icon" @click="getall"></i>
       <div class="top"></div>
       <span class="tag" @click="changeTag('技')">技
         <div class="tagShow">术</div>
@@ -41,6 +41,9 @@ export default {
           this.$message.error(`${err}`);
           console.log(err);
         });
+    },
+    getall(){
+       this.$emit('getall')
     }
   },
 };
@@ -49,6 +52,7 @@ export default {
 <style  scoped>
 .icon {
   font-size: 3rem;
+  cursor: pointer;
 }
 .top {
     margin-top: 2ch;
