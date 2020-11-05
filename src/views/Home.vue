@@ -242,6 +242,14 @@ export default {
   methods: {
     getall() {
       this.getBlogs(this.page.currentpage)
+      let index = Math.floor(Math.random() * 10);
+      this.setHometitleandverse('纳兰心事',this.verse[index])
+      this.$notify.info({
+          title: "返回成功",
+          message: "已取消标签筛选",
+          position: "top-left",
+          duration: 1500,
+        });
     },
     changeTag(data, tag) {
       console.log(data);
@@ -324,7 +332,7 @@ export default {
       if (this.$route.path !== "/") {
         this.$router.push({ path: "/" });
       }
-      this.getBlogs(this.page.currentpage, this.search);
+      this.getBlogs(this.page.currentpage, this.search ,);
     },
     changeSearch() {
       this.searchIcon = !this.searchIcon;
@@ -378,8 +386,18 @@ export default {
               });
             }
             console.log(this.blogs);
+            let index = Math.floor(Math.random() * 10);
+            this.setHometitleandverse('纳兰心事',this.verse[index])
             for (let item of this.blogs) {
               item.createdAt = formatDate(new Date(item.createdAt), "yy/MM/dd");
+            }
+            if(searchTitle)  {
+               this.$notify.info({
+                title: "搜索成功",
+                message: `共有${data.content.count}篇词`,
+                position: "top-left",
+                duration: 1500,
+              });
             }
           }
         })
@@ -388,6 +406,10 @@ export default {
           console.log(err);
         });
     },
+     setHometitleandverse(title,verse){
+         this.$store.dispatch("hometitle", title);
+        this.$store.dispatch("homeverse", verse);
+    }
   },
   mounted() {
     this.showButton();
@@ -411,6 +433,8 @@ export default {
             if (data) {
               console.log(data);
               this.changeTag(data.content, this.$route.query.tag);
+              let index = Math.floor(Math.random() * 10);
+              this.setHometitleandverse('纳兰心事',this.verse[index])
             }
           })
           .catch((err) => {
@@ -420,8 +444,7 @@ export default {
       }
       if (this.$route.path.indexOf("/singleBlog") < 0) {
         let index = Math.floor(Math.random() * 10);
-        this.$store.dispatch("hometitle", "纳兰心事");
-        this.$store.dispatch("homeverse", this.verse[index]);
+        this.setHometitleandverse('纳兰心事',this.verse[index])
       }
     },
     search: function () {
@@ -429,6 +452,7 @@ export default {
         this.getBlogs(this.page.currentpage);
       }
     },
+   
   },
 };
 </script>

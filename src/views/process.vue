@@ -1,6 +1,13 @@
 <template>
   <div class="process">
     <el-timeline>
+      <el-timeline-item timestamp="2020/11/5" placement="top">
+        <el-card>
+          <h4>修复 1.2.1</h4>
+          <p>• 修复标签筛选取消后bannertitle不改变的问题</p>
+          <p>• 添加搜索成功后提示</p>
+        </el-card>
+      </el-timeline-item>
       <el-timeline-item timestamp="2020/11/3" placement="top">
         <el-card>
           <h4>更新 1.2.0</h4>
